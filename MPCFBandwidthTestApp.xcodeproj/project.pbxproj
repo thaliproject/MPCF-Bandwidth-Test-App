@@ -1,0 +1,307 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D1C9C89F1DE722A200BA569C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C89E1DE722A200BA569C /* AppDelegate.swift */; };
+		D1C9C8A11DE722A200BA569C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8A01DE722A200BA569C /* ViewController.swift */; };
+		D1C9C8A41DE722A200BA569C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A21DE722A200BA569C /* Main.storyboard */; };
+		D1C9C8A61DE722A200BA569C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A51DE722A200BA569C /* Assets.xcassets */; };
+		D1C9C8A91DE722A200BA569C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D1C9C89B1DE722A200BA569C /* MPCFBandwidthTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPCFBandwidthTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1C9C89E1DE722A200BA569C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D1C9C8A01DE722A200BA569C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D1C9C8A31DE722A200BA569C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D1C9C8A51DE722A200BA569C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D1C9C8A81DE722A200BA569C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D1C9C8AA1DE722A200BA569C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1C9C8981DE722A200BA569C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D1C9C8921DE722A200BA569C = {
+			isa = PBXGroup;
+			children = (
+				D1C9C89D1DE722A200BA569C /* MPCFBandwidthTestApp */,
+				D1C9C89C1DE722A200BA569C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D1C9C89C1DE722A200BA569C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1C9C89B1DE722A200BA569C /* MPCFBandwidthTestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D1C9C89D1DE722A200BA569C /* MPCFBandwidthTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				D1C9C89E1DE722A200BA569C /* AppDelegate.swift */,
+				D1C9C8A01DE722A200BA569C /* ViewController.swift */,
+				D1C9C8A21DE722A200BA569C /* Main.storyboard */,
+				D1C9C8A51DE722A200BA569C /* Assets.xcassets */,
+				D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */,
+				D1C9C8AA1DE722A200BA569C /* Info.plist */,
+			);
+			path = MPCFBandwidthTestApp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1C9C89A1DE722A200BA569C /* MPCFBandwidthTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1C9C8AD1DE722A200BA569C /* Build configuration list for PBXNativeTarget "MPCFBandwidthTestApp" */;
+			buildPhases = (
+				D1C9C8971DE722A200BA569C /* Sources */,
+				D1C9C8981DE722A200BA569C /* Frameworks */,
+				D1C9C8991DE722A200BA569C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MPCFBandwidthTestApp;
+			productName = MPCFBandwidthTestApp;
+			productReference = D1C9C89B1DE722A200BA569C /* MPCFBandwidthTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D1C9C8931DE722A200BA569C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0810;
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = "Thali Project";
+				TargetAttributes = {
+					D1C9C89A1DE722A200BA569C = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 65Y83XEN2Z;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D1C9C8961DE722A200BA569C /* Build configuration list for PBXProject "MPCFBandwidthTestApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D1C9C8921DE722A200BA569C;
+			productRefGroup = D1C9C89C1DE722A200BA569C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1C9C89A1DE722A200BA569C /* MPCFBandwidthTestApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D1C9C8991DE722A200BA569C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1C9C8A91DE722A200BA569C /* LaunchScreen.storyboard in Resources */,
+				D1C9C8A61DE722A200BA569C /* Assets.xcassets in Resources */,
+				D1C9C8A41DE722A200BA569C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D1C9C8971DE722A200BA569C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1C9C8A11DE722A200BA569C /* ViewController.swift in Sources */,
+				D1C9C89F1DE722A200BA569C /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D1C9C8A21DE722A200BA569C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1C9C8A31DE722A200BA569C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1C9C8A81DE722A200BA569C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D1C9C8AB1DE722A200BA569C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D1C9C8AC1DE722A200BA569C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1C9C8AE1DE722A200BA569C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 65Y83XEN2Z;
+				INFOPLIST_FILE = MPCFBandwidthTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thaliproject.MPCFBandwidthTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D1C9C8AF1DE722A200BA569C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 65Y83XEN2Z;
+				INFOPLIST_FILE = MPCFBandwidthTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thaliproject.MPCFBandwidthTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D1C9C8961DE722A200BA569C /* Build configuration list for PBXProject "MPCFBandwidthTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1C9C8AB1DE722A200BA569C /* Debug */,
+				D1C9C8AC1DE722A200BA569C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1C9C8AD1DE722A200BA569C /* Build configuration list for PBXNativeTarget "MPCFBandwidthTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1C9C8AE1DE722A200BA569C /* Debug */,
+				D1C9C8AF1DE722A200BA569C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D1C9C8931DE722A200BA569C /* Project object */;
+}
