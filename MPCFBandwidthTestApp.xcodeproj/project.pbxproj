@@ -12,6 +12,7 @@
 		D1C9C8A41DE722A200BA569C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A21DE722A200BA569C /* Main.storyboard */; };
 		D1C9C8A61DE722A200BA569C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A51DE722A200BA569C /* Assets.xcassets */; };
 		D1C9C8A91DE722A200BA569C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */; };
+		D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8B01DE72DC200BA569C /* MPCManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		D1C9C8A51DE722A200BA569C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1C9C8A81DE722A200BA569C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1C9C8AA1DE722A200BA569C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1C9C8B01DE72DC200BA569C /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MPCManager.swift; path = ../MPCManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				D1C9C89E1DE722A200BA569C /* AppDelegate.swift */,
 				D1C9C8A01DE722A200BA569C /* ViewController.swift */,
+				D1C9C8B01DE72DC200BA569C /* MPCManager.swift */,
 				D1C9C8A21DE722A200BA569C /* Main.storyboard */,
 				D1C9C8A51DE722A200BA569C /* Assets.xcassets */,
 				D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			files = (
 				D1C9C8A11DE722A200BA569C /* ViewController.swift in Sources */,
 				D1C9C89F1DE722A200BA569C /* AppDelegate.swift in Sources */,
+				D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +304,7 @@
 				D1C9C8AF1DE722A200BA569C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
