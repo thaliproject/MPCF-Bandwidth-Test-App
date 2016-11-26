@@ -1,14 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MPCFBandwidthTestApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,7 +19,72 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRK-VA-JFR">
+                                <state key="normal" title="Start advertising"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cp1-Mw-Kes">
+                                <state key="normal" title="Stop advertising"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fFh-Es-EoY">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="5fR-Nd-WMK"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount of data (MBs):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hP6-cu-3ba">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gF7-NN-jfT">
+                                <state key="normal" title="Send"/>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esh-X1-fV3">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connected:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVa-YD-wSa">
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoa-lJ-mQD">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="mE6-sZ-aoB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="esh-X1-fV3" secondAttribute="height" multiplier="2:1" id="8gC-6b-DZk"/>
+                                    <constraint firstItem="SVa-YD-wSa" firstAttribute="top" secondItem="esh-X1-fV3" secondAttribute="top" id="Evt-bd-rJp"/>
+                                    <constraint firstItem="SVa-YD-wSa" firstAttribute="leading" secondItem="esh-X1-fV3" secondAttribute="leading" id="GiK-Dv-5cQ"/>
+                                    <constraint firstItem="xoa-lJ-mQD" firstAttribute="top" secondItem="SVa-YD-wSa" secondAttribute="top" id="cd3-AI-iAC"/>
+                                    <constraint firstAttribute="width" constant="240" id="fgF-NR-Igy"/>
+                                    <constraint firstAttribute="trailing" secondItem="xoa-lJ-mQD" secondAttribute="trailing" constant="8" id="jdb-PJ-O0V"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="iRK-VA-JFR" secondAttribute="leading" id="5P3-LF-bbC"/>
+                            <constraint firstItem="esh-X1-fV3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9AN-rj-LCo"/>
+                            <constraint firstItem="cp1-Mw-Kes" firstAttribute="top" secondItem="iRK-VA-JFR" secondAttribute="top" id="P6g-Z9-9zQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cp1-Mw-Kes" secondAttribute="trailing" id="Q7f-LL-NSA"/>
+                            <constraint firstItem="esh-X1-fV3" firstAttribute="top" secondItem="iRK-VA-JFR" secondAttribute="bottom" constant="8" id="Was-pS-zzj"/>
+                            <constraint firstItem="fFh-Es-EoY" firstAttribute="centerX" secondItem="hP6-cu-3ba" secondAttribute="centerX" id="bQ8-B7-qu2"/>
+                            <constraint firstItem="iRK-VA-JFR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="bxB-LV-MRM"/>
+                            <constraint firstItem="hP6-cu-3ba" firstAttribute="top" secondItem="esh-X1-fV3" secondAttribute="bottom" constant="10" id="dTx-g7-jez"/>
+                            <constraint firstItem="hP6-cu-3ba" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gdj-px-O2a"/>
+                            <constraint firstItem="fFh-Es-EoY" firstAttribute="top" secondItem="hP6-cu-3ba" secondAttribute="bottom" constant="8" id="lxB-U4-K1M"/>
+                            <constraint firstItem="gF7-NN-jfT" firstAttribute="centerX" secondItem="fFh-Es-EoY" secondAttribute="centerX" id="mcn-gr-dUN"/>
+                            <constraint firstItem="cp1-Mw-Kes" firstAttribute="centerY" secondItem="iRK-VA-JFR" secondAttribute="centerY" id="uAe-Tp-fsZ"/>
+                            <constraint firstItem="gF7-NN-jfT" firstAttribute="top" secondItem="fFh-Es-EoY" secondAttribute="bottom" constant="8" id="xzM-ah-dX4"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

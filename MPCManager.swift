@@ -11,6 +11,7 @@ import MultipeerConnectivity
 
 public class MPCManager: NSObject, MCSessionDelegate {
 
+    let serviceType: String = "MPCF-Bandwidth-Test-App"
     var session: MCSession!
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
@@ -22,7 +23,7 @@ public class MPCManager: NSObject, MCSessionDelegate {
         peerID = MCPeerID(displayName: UIDevice.current.name)
         session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         session.delegate = self
-        advertiserAssistant = MCAdvertiserAssistant(serviceType: "MPCF-Bandwidth-Test-App", discoveryInfo: nil, session: session)
+        advertiserAssistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
     }
 
     // MARK: - Session controls
