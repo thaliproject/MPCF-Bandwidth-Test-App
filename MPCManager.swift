@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 public class MPCManager: NSObject, MCSessionDelegate {
 
-    let serviceType: String = "MPCF-Bandwidth-Test-App"
+    let serviceType: String = "MPCF-Speed-Test"
     var session: MCSession!
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
@@ -38,6 +38,10 @@ public class MPCManager: NSObject, MCSessionDelegate {
 
     func joinSession() {
 
+    }
+
+    func sendStream() {
+//        session.startStream(withName: <#T##String#>, toPeer: <#T##MCPeerID#>)
     }
 
     // MARK: - MCSessionDelegate
