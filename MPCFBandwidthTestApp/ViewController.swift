@@ -14,6 +14,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
     @IBOutlet weak var dataTextField: UITextField!
     @IBOutlet weak var advertiseButton: UIButton!
     @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var openSteamButton: UIButton!
     @IBOutlet weak var sendDataButton: UIButton!
     @IBOutlet weak var connectionsNumberLabel: UILabel!
 
@@ -23,6 +24,8 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
         super.viewDidLoad()
         advertiseButton.addTarget(self, action: #selector(advertisePressed), for: .touchUpInside)
         connectButton.addTarget(self, action: #selector(connectPressed), for: .touchUpInside)
+        openSteamButton.addTarget(self, action: #selector(openStreamPressed), for: .touchUpInside)
+        sendDataButton.addTarget(self, action: #selector(sendDataPressed), for: .touchUpInside)
     }
 
     func advertisePressed(sender: UIButton) {
@@ -47,6 +50,22 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
         } else {
             connectButton.setTitle("Connect to session", for: .normal)
             advertiseButton.isEnabled = true
+        }
+    }
+
+    func openStreamPressed(sender: UIButton) {
+        if manager.outputStream == nil {
+            sender.isSelected = !sender.isSelected
+            manager.openStream()
+            openSteamButton.setTitle("Stream opened", for: .normal)
+        }
+    }
+
+    func sendDataPressed(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            manager.sendData()
+        } else {
         }
     }
 

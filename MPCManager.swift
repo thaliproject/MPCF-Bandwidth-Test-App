@@ -15,6 +15,8 @@ public class MPCManager: NSObject, MCSessionDelegate {
     var session: MCSession!
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
+    var outputStream: OutputStream?
+    var inputStream: InputStream?
 
     // Singleton setup
     static let shared = MPCManager()
@@ -36,12 +38,19 @@ public class MPCManager: NSObject, MCSessionDelegate {
         self.advertiserAssistant.stop()
     }
 
-    func joinSession() {
-
+    func openStream() {
+        do {
+            let stream = try session.startStream(withName: "Main", toPeer: session.connectedPeers[0])
+            self.outputStream = stream
+        } catch {
+            print("Couldn't open stream")
+        }
     }
 
-    func sendStream() {
-//        session.startStream(withName: <#T##String#>, toPeer: <#T##MCPeerID#>)
+    func sendData() {
+        let data = Data.generateDataBy(numberOfBytes: 1000)
+        let result = outputStream?.write(data.withUnsafeBytes {UnsafePointer<UInt8>($0)}, maxLength: data.count)
+        print(result ?? 0)
     }
 
     // MARK: - MCSessionDelegate
@@ -53,6 +62,7 @@ public class MPCManager: NSObject, MCSessionDelegate {
     }
 
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        self.inputStream = stream
     }
 
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
