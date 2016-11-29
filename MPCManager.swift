@@ -17,6 +17,13 @@ public class MPCManager: NSObject, MCSessionDelegate {
     var advertiserAssistant: MCAdvertiserAssistant!
     var outputStream: OutputStream?
     var inputStream: InputStream?
+    var delegate: MPCManagerDelegate?
+
+    var numberOfConnections: Int = 0 {
+        didSet {
+            delegate?.peerCounterChanged()
+        }
+    }
 
     // Singleton setup
     static let shared = MPCManager()
@@ -56,6 +63,13 @@ public class MPCManager: NSObject, MCSessionDelegate {
     // MARK: - MCSessionDelegate
 
     public func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        if state == .connected {
+            print("connected")
+            numberOfConnections += 1
+        } else if state == .notConnected {
+            print("disconnected")
+            numberOfConnections -= 1
+        }
     }
 
     public func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -70,4 +84,8 @@ public class MPCManager: NSObject, MCSessionDelegate {
 
     public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
     }
+}
+
+protocol MPCManagerDelegate {
+    func peerCounterChanged()
 }

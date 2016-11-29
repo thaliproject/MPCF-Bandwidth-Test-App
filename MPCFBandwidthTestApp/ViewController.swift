@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UIViewController, MCBrowserViewControllerDelegate {
+class ViewController: UIViewController, MCBrowserViewControllerDelegate, MPCManagerDelegate {
 
     @IBOutlet weak var dataTextField: UITextField!
     @IBOutlet weak var advertiseButton: UIButton!
@@ -22,6 +22,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        manager.delegate = self
         advertiseButton.addTarget(self, action: #selector(advertisePressed), for: .touchUpInside)
         connectButton.addTarget(self, action: #selector(connectPressed), for: .touchUpInside)
         openSteamButton.addTarget(self, action: #selector(openStreamPressed), for: .touchUpInside)
@@ -66,6 +67,12 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
         if sender.isSelected {
             manager.sendData()
         } else {
+        }
+    }
+
+    func peerCounterChanged() {
+         DispatchQueue.main.async {
+            self.connectionsNumberLabel.text = "\(self.manager.numberOfConnections)"
         }
     }
 
