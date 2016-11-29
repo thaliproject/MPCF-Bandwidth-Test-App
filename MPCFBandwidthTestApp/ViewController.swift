@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MCBrowserViewControllerDelegate {
 
     @IBOutlet weak var dataTextField: UITextField!
     @IBOutlet weak var advertiseButton: UIButton!
@@ -42,9 +43,26 @@ class ViewController: UIViewController {
         if sender.isSelected {
             connectButton.setTitle("Disconnect from session", for: .normal)
             advertiseButton.isEnabled = false
+            showConnectView()
         } else {
             connectButton.setTitle("Connect to session", for: .normal)
             advertiseButton.isEnabled = true
         }
+    }
+
+    func showConnectView() {
+        let browser = MCBrowserViewController(serviceType: manager.serviceType, session: manager.session)
+        browser.delegate = self
+        present(browser, animated: true)
+    }
+
+    // MARK: - MCBrowserViewControllerDelegate
+
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
+
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
     }
 }
