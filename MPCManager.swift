@@ -11,6 +11,7 @@ import MultipeerConnectivity
 
 public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
+    internal fileprivate(set) var opened = false
     let serviceType: String = "MPCF-Speed-Test"
     var session: MCSession!
     var peerID: MCPeerID!
@@ -18,6 +19,9 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     var outputStream: OutputStream?
     var inputStream: InputStream?
     var delegate: MPCManagerDelegate?
+    let maxReadBufferLength = 1024 * 1024
+    var startTime: DispatchTime!
+    var endTime: DispatchTime!
 
     var numberOfConnections: Int = 0 {
         didSet {
@@ -49,16 +53,44 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
         do {
             let stream = try session.startStream(withName: "Main", toPeer: session.connectedPeers[0])
             self.outputStream = stream
+            self.outputStream?.schedule(in: RunLoop.current,
+                            forMode: RunLoopMode.defaultRunLoopMode)
+            self.outputStream?.open()
+            RunLoop.current.run(until: Date.distantFuture)
         } catch {
             print("Couldn't open stream")
         }
     }
 
     func sendData() {
-        let data = Data.generateDataBy(numberOfBytes: 1000)
+        let data = Data.generateDataBy(numberOfBytes: 1000000)
         dump(data)
-        self.outputStream?.open()
         let _ = data.withUnsafeBytes{ print(self.outputStream?.write($0, maxLength: data.count) ?? 0) }
+    }
+
+    func readData() {
+        if let inputStream = self.inputStream {
+            var buffer = [UInt8](repeating: 0, count: maxReadBufferLength)
+
+            let bytesRead = inputStream.read(&buffer, maxLength: maxReadBufferLength)
+            if bytesRead >= 0 {
+                let data = Data(bytes: buffer, count: bytesRead)
+                endTime = DispatchTime.now()
+                let nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
+                let timeInterval = Double(nanoTime) / 1_000
+
+                print("Time to receive \(data.count) bytes: \(timeInterval) microseconds")
+                print("Did read data from stream")
+            } else {
+                closeStreams()
+            }
+        }
+    }
+
+    func closeStreams() {
+        opened = false
+        inputStream?.close()
+        outputStream?.close()
     }
 
     // MARK: - MCSessionDelegate
@@ -67,6 +99,18 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             switch eventCode {
             case Stream.Event.openCompleted:
                 print("Open Completed")
+            case Stream.Event.hasBytesAvailable:
+                startTime = DispatchTime.now()
+                readData()
+            case Stream.Event.hasSpaceAvailable:
+                print("Close")
+//                closeStreams()
+            case Stream.Event.errorOccurred:
+                print("Close")
+//                closeStreams()
+            case Stream.Event.endEncountered:
+                print("Close")
+//                closeStreams()
             default:
                 break
             }
@@ -90,7 +134,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         self.inputStream = stream
+        stream.schedule(in: RunLoop.current,
+                         forMode: RunLoopMode.defaultRunLoopMode)
+        stream.open()
         stream.delegate = self
+        RunLoop.current.run(until: Date.distantFuture)
     }
 
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
