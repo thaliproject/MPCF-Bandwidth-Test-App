@@ -30,7 +30,7 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     private override init() {
         super.init()
         peerID = MCPeerID(displayName: UIDevice.current.name)
-        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
         session.delegate = self
         advertiserAssistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
     }
@@ -57,15 +57,20 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     func sendData() {
         let data = Data.generateDataBy(numberOfBytes: 1000)
         dump(data)
+        self.outputStream?.open()
         let _ = data.withUnsafeBytes{ print(self.outputStream?.write($0, maxLength: data.count) ?? 0) }
     }
 
     // MARK: - MCSessionDelegate
     public func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-//        let incoming = aStream as! InputStream
-//        let bufferSize = 1000
-//        var buffer = UnsafeMutablePointer
-//        incoming.read(<#T##buffer: UnsafeMutablePointer<UInt8>##UnsafeMutablePointer<UInt8>#>, maxLength: <#T##Int#>)
+        if aStream == self.inputStream {
+            switch eventCode {
+            case Stream.Event.openCompleted:
+                print("Open Completed")
+            default:
+                break
+            }
+        }
     }
 
     // MARK: - MCSessionDelegate
@@ -86,7 +91,6 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         self.inputStream = stream
         stream.delegate = self
-//        stream.read(<#T##buffer: UnsafeMutablePointer<UInt8>##UnsafeMutablePointer<UInt8>#>, maxLength: <#T##Int#>)
     }
 
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
