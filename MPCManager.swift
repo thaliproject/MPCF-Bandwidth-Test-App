@@ -26,6 +26,9 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     var endTime: DispatchTime!
     var totalData: Int = 0
     let bytesToSend: Int = 1024*1024
+    var firstStartTime: Bool = true
+    var firstEndTime: Bool = true
+    var startDate: Date!
 
     var numberOfConnections: Int = 0 {
         didSet {
@@ -81,7 +84,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     func sendData() {
-        startTime = DispatchTime.now()
+        if firstStartTime {
+            firstStartTime = false
+            startTime = DispatchTime.now()
+            startDate = Date()
+        }
         let data = Data.generateDataBy(numberOfBytes: bytesToSend)
         dump(data)
 
@@ -125,13 +132,18 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             let bytesRead = returnInputStream.read(&buffer, maxLength: maxReadBufferLength)
             if bytesRead >= 0 {
                 let data = Data(bytes: buffer, count: bytesRead)
-                endTime = DispatchTime.now()
-                let nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
-                let timeInterval = Double(nanoTime) / 1_000_000_000
+                if firstEndTime {
+                    endTime = DispatchTime.now()
+                    firstEndTime = false
+                }
+                let endDate = Date().timeIntervalSince(startDate as Date)
+                let nanoTime = Double(endTime.uptimeNanoseconds) - Double(startTime.uptimeNanoseconds)
+                let timeInterval = Double(nanoTime) / 1000000000.0
 
                 print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(timeInterval) seconds")
                 let speed = 1/timeInterval
                 print("Transfer with confirmation speed: \(speed) MB/s")
+                print("End date: \(endDate)")
             } else {
                 closeStreams()
             }
