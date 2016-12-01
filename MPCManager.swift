@@ -81,6 +81,7 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     func sendData() {
+        startTime = DispatchTime.now()
         let data = Data.generateDataBy(numberOfBytes: bytesToSend)
         dump(data)
 
@@ -126,11 +127,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
                 let data = Data(bytes: buffer, count: bytesRead)
                 endTime = DispatchTime.now()
                 let nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
-                let timeInterval = Double(nanoTime) / 1_000_000
+                let timeInterval = Double(nanoTime) / 1_000_000_000
 
-                print("Recieved in return \(data.count) bytes. Time to send \(bytesToSend) bytes and get response: \(timeInterval) miliseconds")
-                print("Total data: \(totalData)")
-                print("Did read data from stream")
+                print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(timeInterval) seconds")
+                let speed = 1/timeInterval
+                print("Transfer with confirmation speed: \(speed) MB/s")
             } else {
                 closeStreams()
             }
@@ -150,7 +151,6 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             case Stream.Event.openCompleted:
                 print("Main input - openCompleted")
             case Stream.Event.hasBytesAvailable:
-                startTime = DispatchTime.now()
                 print("Main input - hasBytesAvailable")
                 readData()
             case Stream.Event.hasSpaceAvailable:
@@ -171,7 +171,6 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
                 print("Return input - Open Completed")
             case Stream.Event.hasBytesAvailable:
                 print("Return input - hasBytesAvailable")
-                startTime = DispatchTime.now()
                 readReturnData()
             case Stream.Event.hasSpaceAvailable:
                 print("Return input - hasSpaceAvailable")
