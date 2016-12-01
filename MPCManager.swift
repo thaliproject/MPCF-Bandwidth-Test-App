@@ -17,11 +17,15 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
     var outputStream: OutputStream?
+    var returnStream: OutputStream?
     var inputStream: InputStream?
+    var returnInputStream: InputStream?
     var delegate: MPCManagerDelegate?
     let maxReadBufferLength = 1024 * 1024
     var startTime: DispatchTime!
     var endTime: DispatchTime!
+    var totalData: Int = 0
+    let bytesToSend: Int = 1024*1024
 
     var numberOfConnections: Int = 0 {
         didSet {
@@ -51,7 +55,7 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     func openStream() {
         do {
-            let stream = try session.startStream(withName: "Main", toPeer: session.connectedPeers[0])
+            let stream = try session.startStream(withName: "Outgoing", toPeer: session.connectedPeers[0])
             self.outputStream = stream
             self.outputStream?.schedule(in: RunLoop.current,
                             forMode: RunLoopMode.defaultRunLoopMode)
@@ -62,10 +66,32 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
         }
     }
 
+    func openReturnStreamAndSendData() {
+        do {
+            let stream = try session.startStream(withName: "Return \(UIDevice.current.name)", toPeer: session.connectedPeers[0])
+            self.returnStream = stream
+            self.returnStream?.schedule(in: RunLoop.current,
+                                        forMode: RunLoopMode.defaultRunLoopMode)
+            self.returnStream?.open()
+//            RunLoop.current.run(until: Date.distantFuture)
+            sendReturnData()
+        } catch {
+            print("Couldn't open stream")
+        }
+    }
+
     func sendData() {
-        let data = Data.generateDataBy(numberOfBytes: 1000000)
+        let data = Data.generateDataBy(numberOfBytes: bytesToSend)
         dump(data)
-        let _ = data.withUnsafeBytes{ print(self.outputStream?.write($0, maxLength: data.count) ?? 0) }
+
+        _ = data.withUnsafeBytes{ print(self.outputStream?.write($0, maxLength: data.count) ?? 0.0 ) }
+    }
+
+    func sendReturnData() {
+        let data = Data.generateDataBy(numberOfBytes: 1)
+        dump(data)
+
+        _ = data.withUnsafeBytes{ print(self.returnStream?.write($0, maxLength: data.count) ?? 0.0 ) }
     }
 
     func readData() {
@@ -75,11 +101,35 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             let bytesRead = inputStream.read(&buffer, maxLength: maxReadBufferLength)
             if bytesRead >= 0 {
                 let data = Data(bytes: buffer, count: bytesRead)
+                totalData += data.count
+                print(totalData)
+
+                if totalData == bytesToSend {
+                    print("Received all the data")
+                    self.inputStream?.close()
+                    openReturnStreamAndSendData()
+
+
+                }
+            } else {
+                closeStreams()
+            }
+        }
+    }
+
+    func readReturnData() {
+        if let returnInputStream = self.returnInputStream {
+            var buffer = [UInt8](repeating: 0, count: maxReadBufferLength)
+
+            let bytesRead = returnInputStream.read(&buffer, maxLength: maxReadBufferLength)
+            if bytesRead >= 0 {
+                let data = Data(bytes: buffer, count: bytesRead)
                 endTime = DispatchTime.now()
                 let nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
-                let timeInterval = Double(nanoTime) / 1_000
+                let timeInterval = Double(nanoTime) / 1_000_000
 
-                print("Time to receive \(data.count) bytes: \(timeInterval) microseconds")
+                print("Recieved in return \(data.count) bytes. Time to send \(bytesToSend) bytes and get response: \(timeInterval) miliseconds")
+                print("Total data: \(totalData)")
                 print("Did read data from stream")
             } else {
                 closeStreams()
@@ -98,19 +148,40 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
         if aStream == self.inputStream {
             switch eventCode {
             case Stream.Event.openCompleted:
-                print("Open Completed")
+                print("Main input - openCompleted")
             case Stream.Event.hasBytesAvailable:
                 startTime = DispatchTime.now()
+                print("Main input - hasBytesAvailable")
                 readData()
             case Stream.Event.hasSpaceAvailable:
-                print("Close")
+                print("Main input - hasSpaceAvailable")
 //                closeStreams()
             case Stream.Event.errorOccurred:
-                print("Close")
+                print("Main input - errorOccurred")
 //                closeStreams()
             case Stream.Event.endEncountered:
-                print("Close")
+                print("Main input - errorOccurred")
 //                closeStreams()
+            default:
+                break
+            }
+        } else {
+            switch eventCode {
+            case Stream.Event.openCompleted:
+                print("Return input - Open Completed")
+            case Stream.Event.hasBytesAvailable:
+                print("Return input - hasBytesAvailable")
+                startTime = DispatchTime.now()
+                readReturnData()
+            case Stream.Event.hasSpaceAvailable:
+                print("Return input - hasSpaceAvailable")
+            //                closeStreams()
+            case Stream.Event.errorOccurred:
+                print("Return input - errorOccurred")
+            //                closeStreams()
+            case Stream.Event.endEncountered:
+                print("Return input - endEncountered")
+            //                closeStreams()
             default:
                 break
             }
@@ -133,7 +204,12 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        self.inputStream = stream
+        print(streamName)
+        if streamName == "Outgoing" {
+            self.inputStream = stream
+        } else {
+            self.returnInputStream = stream
+        }
         stream.schedule(in: RunLoop.current,
                          forMode: RunLoopMode.defaultRunLoopMode)
         stream.open()
