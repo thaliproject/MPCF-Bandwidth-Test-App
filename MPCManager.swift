@@ -13,7 +13,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     internal fileprivate(set) var opened = false
     let serviceType: String = "MPCF-Speed-Test"
-    var session: MCSession!
+    var session: MCSession! {
+        didSet {
+            session.delegate = self
+        }
+    }
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
     var advertiser: Advertiser!
@@ -39,13 +43,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
         super.init()
         peerID = MCPeerID(displayName: UIDevice.current.name)
         session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        session.delegate = self
         advertiser = Advertiser(peer: peerID, serviceType: serviceType, receivedInvitation: {
             [weak self] session in
             guard let strongSelf = self else { return }
 
             strongSelf.session = session.session
-            session.session.delegate = strongSelf
             }, sessionNotConnected: {})
         advertiserAssistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
     }
@@ -196,10 +198,14 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     public func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         if state == .connected {
             print("connected")
-            numberOfConnections += 1
+//            if !self.session.connectedPeers.contains(peerID) {
+                numberOfConnections += 1
+//            }
         } else if state == .notConnected {
             print("disconnected")
-            numberOfConnections -= 1
+//            if self.session.connectedPeers.contains(peerID) {
+                numberOfConnections -= 1
+//            }
         }
     }
 

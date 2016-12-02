@@ -243,4 +243,5 @@ extension Session: MCSessionDelegate {
 
 public enum MPCError: String, Error {
     case outputStreamFail = "Failed to created output stream"
+    case peerError = "Peer not found"
 }

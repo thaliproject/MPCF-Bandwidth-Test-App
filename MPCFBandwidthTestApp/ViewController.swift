@@ -19,6 +19,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MPCMana
     @IBOutlet weak var connectionsNumberLabel: UILabel!
 
     let manager = MPCManager.shared
+    var browser: Browser!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,9 +78,31 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate, MPCMana
     }
 
     func showConnectView() {
-        let browser = MCBrowserViewController(serviceType: manager.serviceType, session: manager.session)
-        browser.delegate = self
-        present(browser, animated: true)
+        // Previous setup
+//        let browser = MCBrowserViewController(serviceType: manager.serviceType, session: manager.session)
+//        browser.delegate = self
+//        present(browser, animated: true)
+
+        browser = Browser(serviceType: manager.serviceType,
+                              foundPeer: handleFound,
+                              lostPeer: handleLost)
+        browser.startListening { _ in }
+    }
+
+    func handleFound(_ peer: MCPeerID) {
+        do {
+            try browser.inviteToConnect(peer, sessionConnected: {}, sessionNotConnected: {}, sessionCreated: { session in self.manager.session = session.session})
+        } catch {
+            print(MPCError.peerError)
+        }
+
+    }
+
+    func sessionConnected() {
+//        self.manager.session = self.browser.peerSessions[peer]?.session
+    }
+
+    func handleLost(_ peer: MCPeerID) {
     }
 
     // MARK: - MCBrowserViewControllerDelegate

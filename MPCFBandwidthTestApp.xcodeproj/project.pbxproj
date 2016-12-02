@@ -15,6 +15,7 @@
 		D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8B01DE72DC200BA569C /* MPCManager.swift */; };
 		D1C9C8B91DEC782800BA569C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8B81DEC782800BA569C /* Utils.swift */; };
 		D1EC244C1DF1AC5F00CB9CA6 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */; };
+		D1EC244E1DF1C71A00CB9CA6 /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EC244D1DF1C71A00CB9CA6 /* Browser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D1C9C8B01DE72DC200BA569C /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MPCManager.swift; path = ../MPCManager.swift; sourceTree = "<group>"; };
 		D1C9C8B81DEC782800BA569C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Advertiser.swift; sourceTree = "<group>"; };
+		D1EC244D1DF1C71A00CB9CA6 /* Browser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Browser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				D1C9C8A01DE722A200BA569C /* ViewController.swift */,
 				D1C9C8B01DE72DC200BA569C /* MPCManager.swift */,
 				D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */,
+				D1EC244D1DF1C71A00CB9CA6 /* Browser.swift */,
 				D1C9C8B81DEC782800BA569C /* Utils.swift */,
 				D1C9C8A21DE722A200BA569C /* Main.storyboard */,
 				D1C9C8A51DE722A200BA569C /* Assets.xcassets */,
@@ -148,6 +151,7 @@
 			files = (
 				D1EC244C1DF1AC5F00CB9CA6 /* Advertiser.swift in Sources */,
 				D1C9C8A11DE722A200BA569C /* ViewController.swift in Sources */,
+				D1EC244E1DF1C71A00CB9CA6 /* Browser.swift in Sources */,
 				D1C9C89F1DE722A200BA569C /* AppDelegate.swift in Sources */,
 				D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */,
 				D1C9C8B91DEC782800BA569C /* Utils.swift in Sources */,
