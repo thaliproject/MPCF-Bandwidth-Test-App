@@ -22,12 +22,8 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     var returnInputStream: InputStream?
     var delegate: MPCManagerDelegate?
     let maxReadBufferLength = 1024 * 1024
-    var startTime: DispatchTime!
-    var endTime: DispatchTime!
     var totalData: Int = 0
     let bytesToSend: Int = 1024*1024
-    var firstStartTime: Bool = true
-    var firstEndTime: Bool = true
     var startDate: Date!
 
     var numberOfConnections: Int = 0 {
@@ -76,7 +72,6 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             self.returnStream?.schedule(in: RunLoop.current,
                                         forMode: RunLoopMode.defaultRunLoopMode)
             self.returnStream?.open()
-//            RunLoop.current.run(until: Date.distantFuture)
             sendReturnData()
         } catch {
             print("Couldn't open stream")
@@ -84,11 +79,7 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     func sendData() {
-        if firstStartTime {
-            firstStartTime = false
-            startTime = DispatchTime.now()
-            startDate = Date()
-        }
+        startDate = Date()
         let data = Data.generateDataBy(numberOfBytes: bytesToSend)
         dump(data)
 
@@ -132,18 +123,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
             let bytesRead = returnInputStream.read(&buffer, maxLength: maxReadBufferLength)
             if bytesRead >= 0 {
                 let data = Data(bytes: buffer, count: bytesRead)
-                if firstEndTime {
-                    endTime = DispatchTime.now()
-                    firstEndTime = false
-                }
                 let endDate = Date().timeIntervalSince(startDate as Date)
-                let nanoTime = Double(endTime.uptimeNanoseconds) - Double(startTime.uptimeNanoseconds)
-                let timeInterval = Double(nanoTime) / 1000000000.0
 
-                print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(timeInterval) seconds")
-                let speed = 1/timeInterval
+                print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(endDate) seconds")
+                let speed = 1/endDate
                 print("Transfer with confirmation speed: \(speed) MB/s")
-                print("End date: \(endDate)")
             } else {
                 closeStreams()
             }
@@ -186,13 +170,13 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
                 readReturnData()
             case Stream.Event.hasSpaceAvailable:
                 print("Return input - hasSpaceAvailable")
-            //                closeStreams()
+//                closeStreams()
             case Stream.Event.errorOccurred:
                 print("Return input - errorOccurred")
-            //                closeStreams()
+//                closeStreams()
             case Stream.Event.endEncountered:
                 print("Return input - endEncountered")
-            //                closeStreams()
+//                closeStreams()
             default:
                 break
             }
