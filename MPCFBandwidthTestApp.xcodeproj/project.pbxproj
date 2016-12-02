@@ -14,6 +14,7 @@
 		D1C9C8A91DE722A200BA569C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C9C8A71DE722A200BA569C /* LaunchScreen.storyboard */; };
 		D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8B01DE72DC200BA569C /* MPCManager.swift */; };
 		D1C9C8B91DEC782800BA569C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9C8B81DEC782800BA569C /* Utils.swift */; };
+		D1EC244C1DF1AC5F00CB9CA6 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		D1C9C8AA1DE722A200BA569C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1C9C8B01DE72DC200BA569C /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MPCManager.swift; path = ../MPCManager.swift; sourceTree = "<group>"; };
 		D1C9C8B81DEC782800BA569C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Advertiser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				D1C9C89E1DE722A200BA569C /* AppDelegate.swift */,
 				D1C9C8A01DE722A200BA569C /* ViewController.swift */,
 				D1C9C8B01DE72DC200BA569C /* MPCManager.swift */,
+				D1EC244B1DF1AC5F00CB9CA6 /* Advertiser.swift */,
 				D1C9C8B81DEC782800BA569C /* Utils.swift */,
 				D1C9C8A21DE722A200BA569C /* Main.storyboard */,
 				D1C9C8A51DE722A200BA569C /* Assets.xcassets */,
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1EC244C1DF1AC5F00CB9CA6 /* Advertiser.swift in Sources */,
 				D1C9C8A11DE722A200BA569C /* ViewController.swift in Sources */,
 				D1C9C89F1DE722A200BA569C /* AppDelegate.swift in Sources */,
 				D1C9C8B11DE72DC200BA569C /* MPCManager.swift in Sources */,

@@ -16,6 +16,7 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     var session: MCSession!
     var peerID: MCPeerID!
     var advertiserAssistant: MCAdvertiserAssistant!
+    var advertiser: Advertiser!
     var outputStream: OutputStream?
     var returnStream: OutputStream?
     var inputStream: InputStream?
@@ -37,19 +38,26 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     private override init() {
         super.init()
         peerID = MCPeerID(displayName: UIDevice.current.name)
-        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
+        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         session.delegate = self
+        advertiser = Advertiser(peer: peerID, serviceType: serviceType, receivedInvitation: {
+            [weak self] session in
+            guard let strongSelf = self else { return }
+
+            strongSelf.session = session.session
+            session.session.delegate = strongSelf
+            }, sessionNotConnected: {})
         advertiserAssistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
     }
 
     // MARK: - Session controls
 
     func startAdvertising() {
-        self.advertiserAssistant.start()
+        self.advertiser.startAdvertising({_ in})
     }
 
     func stopAdvertising() {
-        self.advertiserAssistant.stop()
+        self.advertiser.stopAdvertising()
     }
 
     func openStream() {
