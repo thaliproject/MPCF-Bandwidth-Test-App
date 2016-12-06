@@ -83,10 +83,11 @@ final class Browser: NSObject {
      due to invalid `serviceType` format.
      */
     required init?(serviceType: String,
+                   myPeerID: String,
                    foundPeer: @escaping (MCPeerID) -> Void,
                    lostPeer: @escaping (MCPeerID) -> Void) {
 
-        let mcPeerID = MCPeerID(displayName: UUID().uuidString)
+        let mcPeerID = MCPeerID(displayName: myPeerID)
         browser = MCNearbyServiceBrowser(peer: mcPeerID, serviceType: serviceType)
         didFindPeerHandler = foundPeer
         didLosePeerHandler = lostPeer
