@@ -88,7 +88,11 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     func handleFound(_ peer: MCPeerID) {
         do {
-            try browser!.inviteToConnect(peer, sessionConnected: {}, sessionNotConnected: {}, sessionCreated: { session in self.browseSession = session.session})
+            try browser!.inviteToConnect(peer, sessionConnected: {}, sessionNotConnected: {}, sessionCreated: {
+                [weak self] session in
+                guard let strongSelf = self else { return }
+
+                strongSelf.browseSession = session.session})
         } catch {
             print(MPCError.peerError)
         }
@@ -114,7 +118,6 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     // MARK: - Session controls
-
     func startAdvertising() {
         self.advertiser.startAdvertising({_ in})
     }
@@ -133,8 +136,10 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     func openStream(peer: MCPeerID) {
         do {
-//            let streamName = nameMaster + ""
-            let stream = try advertSession.startStream(withName: "\(nameMaster)", toPeer: peer)
+            guard let name = nameMaster else {
+                return
+            }
+            let stream = try advertSession.startStream(withName: "\(name)", toPeer: peer)
             self.outputStreamFromAdvertiser = stream
             self.outputStreamFromAdvertiser?.schedule(in: RunLoop.current,
                             forMode: RunLoopMode.defaultRunLoopMode)
@@ -145,32 +150,31 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
         }
     }
 
-    func openReturnStreamAndSendData(peer: MCPeerID) {
-        do {
-            let name = master ? "s2" : "s1"
-            let stream = try advertSession.startStream(withName: "\(name)", toPeer: peer)
-            self.outputStreamFromBrowser = stream
-            self.outputStreamFromBrowser?.schedule(in: RunLoop.current,
-                                        forMode: RunLoopMode.defaultRunLoopMode)
-            self.outputStreamFromBrowser?.open()
-        } catch {
-            print("Couldn't open stream")
-        }
-    }
+//    func openReturnStreamAndSendData(peer: MCPeerID) {
+//        do {
+//            let stream = try advertSession.startStream(withName: "\(nameSlave)", toPeer: peer)
+//            self.outputStreamFromBrowser = stream
+//            self.outputStreamFromBrowser?.schedule(in: RunLoop.current,
+//                                        forMode: RunLoopMode.defaultRunLoopMode)
+//            self.outputStreamFromBrowser?.open()
+//        } catch {
+//            print("Couldn't open stream")
+//        }
+//    }
 
     func sendData() {
-        startDate = Date()
-        let data = Data.generateDataBy(numberOfBytes: bytesToSend)
-        dump(data)
-
-        _ = data.withUnsafeBytes{ print(self.outputStreamFromAdvertiser?.write($0, maxLength: data.count) ?? 0.0 ) }
+//        startDate = Date()
+//        let data = Data.generateDataBy(numberOfBytes: bytesToSend)
+//        dump(data)
+//
+//        _ = data.withUnsafeBytes{ print(self.outputStreamFromAdvertiser?.write($0, maxLength: data.count) ?? 0.0 ) }
     }
 
     func sendReturnData() {
-        let data = Data.generateDataBy(numberOfBytes: 1)
-        dump(data)
-
-        _ = data.withUnsafeBytes{ print(self.outputStreamFromBrowser?.write($0, maxLength: data.count) ?? 0.0 ) }
+//        let data = Data.generateDataBy(numberOfBytes: 1)
+//        dump(data)
+//
+//        _ = data.withUnsafeBytes{ print(self.outputStreamFromBrowser?.write($0, maxLength: data.count) ?? 0.0 ) }
     }
 
     func readData() {
@@ -195,96 +199,100 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
     }
 
     func readReturnData() {
-        if let returnInputStream = self.inputStreamToAdvertiser {
-            var buffer = [UInt8](repeating: 0, count: maxReadBufferLength)
-
-            let bytesRead = returnInputStream.read(&buffer, maxLength: maxReadBufferLength)
-            if bytesRead >= 0 {
-                let data = Data(bytes: buffer, count: bytesRead)
-                let endDate = Date().timeIntervalSince(startDate as Date)
-
-                print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(endDate) seconds")
-                let speed = 1/endDate
-                print("Transfer with confirmation speed: \(speed) MB/s")
-            } else {
-                closeStreams()
-            }
-        }
+//        if let returnInputStream = self.inputStreamToAdvertiser {
+//            var buffer = [UInt8](repeating: 0, count: maxReadBufferLength)
+//
+//            let bytesRead = returnInputStream.read(&buffer, maxLength: maxReadBufferLength)
+//            if bytesRead >= 0 {
+//                let data = Data(bytes: buffer, count: bytesRead)
+//                let endDate = Date().timeIntervalSince(startDate as Date)
+//
+//                print("Recieved in return \(data.count) byte. Time to send \(bytesToSend) bytes and get response: \(endDate) seconds")
+//                let speed = 1/endDate
+//                print("Transfer with confirmation speed: \(speed) MB/s")
+//            } else {
+//                closeStreams()
+//            }
+//        }
     }
 
     func closeStreams() {
-        inputStreamToBrowser?.close()
-        outputStreamFromAdvertiser?.close()
+//        inputStreamToBrowser?.close()
+//        outputStreamFromAdvertiser?.close()
     }
 
     // MARK: - MCSessionDelegate
     public func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-        if aStream == self.inputStreamToBrowser {
-            switch eventCode {
-            case Stream.Event.openCompleted:
-                print("Main input - openCompleted")
-            case Stream.Event.hasBytesAvailable:
-                print("Main input - hasBytesAvailable")
-                readData()
-            case Stream.Event.hasSpaceAvailable:
-                print("Main input - hasSpaceAvailable")
-            case Stream.Event.errorOccurred:
-                print("Main input - errorOccurred")
-            case Stream.Event.endEncountered:
-                print("Main input - errorOccurred")
-            default:
-                break
-            }
-        } else if aStream == self.inputStreamToAdvertiser {
-            switch eventCode {
-            case Stream.Event.openCompleted:
-                print("Return input - Open Completed")
-            case Stream.Event.hasBytesAvailable:
-                print("Return input - hasBytesAvailable")
-                readReturnData()
-            case Stream.Event.hasSpaceAvailable:
-                print("Return input - hasSpaceAvailable")
-            case Stream.Event.errorOccurred:
-                print("Return input - errorOccurred")
-            case Stream.Event.endEncountered:
-                print("Return input - endEncountered")
-            default:
-                break
-            }
-        }
+//        if aStream == self.inputStreamToBrowser {
+//            switch eventCode {
+//            case Stream.Event.openCompleted:
+//                print("Main input - openCompleted")
+//            case Stream.Event.hasBytesAvailable:
+//                print("Main input - hasBytesAvailable")
+//                readData()
+//            case Stream.Event.hasSpaceAvailable:
+//                print("Main input - hasSpaceAvailable")
+//            case Stream.Event.errorOccurred:
+//                print("Main input - errorOccurred")
+//            case Stream.Event.endEncountered:
+//                print("Main input - errorOccurred")
+//            default:
+//                break
+//            }
+//        } else if aStream == self.inputStreamToAdvertiser {
+//            switch eventCode {
+//            case Stream.Event.openCompleted:
+//                print("Return input - Open Completed")
+//            case Stream.Event.hasBytesAvailable:
+//                print("Return input - hasBytesAvailable")
+//                readReturnData()
+//            case Stream.Event.hasSpaceAvailable:
+//                print("Return input - hasSpaceAvailable")
+//            case Stream.Event.errorOccurred:
+//                print("Return input - errorOccurred")
+//            case Stream.Event.endEncountered:
+//                print("Return input - endEncountered")
+//            default:
+//                break
+//            }
+//        }
     }
 
     // MARK: - MCSessionDelegate
 
     public func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
 
-        if session == session {
-
-        } else if session == browseSession {
-            print("hi")
-        }
+//        if session == session {
+//
+//        } else if session == browseSession {
+//            print("hi")
+//        }
         if state == .connected {
             print("connected")
             numberOfConnections += 1
             if master {
                 if !outStreamOpen {
+                    outStreamOpen = true
                     otherIDOne = peerID
-//                    openStream(peer: peerID)
-                    browser.startListening { _ in }
+                    stopAdvertising()
+                    startBrowsing()
                 } else {
                     otherIDTwo = peerID
-                    browser.stopListening()
+                    stopBrowsing()
+                    openStream(peer: otherIDOne)
                 }
             } else {
                 if !returnSessionStarted {
                     returnSessionStarted = true
                     otherIDOne = peerID
-                    self.browser.stopListening()
-                    self.advertiser.startAdvertising({_ in})
+                    stopBrowsing()
+                    startAdvertising()
                 } else {
                     otherIDTwo = peerID
-//                    openStream(peer: peerID)
-                    self.advertiser.stopAdvertising()
+                    stopAdvertising()
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        self.openStream(peer: self.otherIDTwo)
+                    }
                 }
             }
 //            }
@@ -301,16 +309,23 @@ public class MPCManager: NSObject, MCSessionDelegate, StreamDelegate {
 
     public func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         print(streamName)
-        if streamName == "Outgoing \(peerID.displayName)" {
+        if streamName == "m1" {
+            print("Master stream received")
             self.inputStreamToBrowser = stream
-        } else if streamName == "Return \(peerID.displayName)" {
-            self.inputStreamToAdvertiser = stream
+        } else if streamName == "m2" {
+            print("Slave stream received")
+            self.inputStreamToBrowser = stream
         }
-        stream.schedule(in: RunLoop.current,
-                         forMode: RunLoopMode.defaultRunLoopMode)
-        stream.open()
-        stream.delegate = self
-        RunLoop.current.run(until: Date.distantFuture)
+//        if streamName == "Outgoing \(peerID.displayName)" {
+//            self.inputStreamToBrowser = stream
+//        } else if streamName == "Return \(peerID.displayName)" {
+//            self.inputStreamToAdvertiser = stream
+//        }
+//        stream.schedule(in: RunLoop.current,
+//                         forMode: RunLoopMode.defaultRunLoopMode)
+//        stream.open()
+//        stream.delegate = self
+//        RunLoop.current.run(until: Date.distantFuture)
     }
 
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
